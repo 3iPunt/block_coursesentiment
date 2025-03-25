@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="blocks/coursesentiment/db" VERSION="20140120" COMMENT="XMLDB file for Moodle blocks/coursesentiment"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd">
+  <TABLES>
+    <TABLE NAME="block_coursesentiment" COMMENT="Table to store the current sentiment status of course">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Course id"/>
+        <FIELD NAME="numberforums" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Number of Forums in current course"/>
+        <FIELD NAME="numbermessages" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Number of Messages in current course (from all users)"/>
+        <FIELD NAME="numberteachermessages" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Number of Teacher Messages in current course"/>
+        <FIELD NAME="numberpositivemessages" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Number of Positive Messages in current course (from all users)"/>
+        <FIELD NAME="numbernegativemessages" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Number of Negative Messages in current course (from all users)"/>
+        <FIELD NAME="numbermixedmessages" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Number of Mixed Messages in current course (from all users)"/>
+        <FIELD NAME="numberneutralmessages" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Number of Neutral Messages in current course (from all users)"/>
+        <FIELD NAME="avgteachertimereply" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Average time that teacher replies"/>
+        <FIELD NAME="sentimentpercentage" TYPE="number" LENGTH="5" NOTNULL="true" SEQUENCE="false" DECIMALS="2" COMMENT="Percentage of current course sentiment, 0 is not happy and 100 very happy"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp at which the record was modified. It is automatically set"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp at which the record was modified. It is automatically set, and defaults to 0."/>
+        <FIELD NAME="usermodified" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user who created/modified the object. It is automatically set"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="courseid" UNIQUE="true" FIELDS="courseid"/>
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="block_coursesentiment_log" COMMENT="Table to store logs of sentiment status in a course">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Course id"/>
+        <FIELD NAME="numberforums" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Number of Forums in current course"/>
+        <FIELD NAME="numbermessages" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Number of Messages in current course (from all users)"/>
+        <FIELD NAME="numberteachermessages" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Number of Teacher Messages in current course"/>
+        <FIELD NAME="numberpositivemessages" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Number of Positive Messages in current course (from all users)"/>
+        <FIELD NAME="numbernegativemessages" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Number of Negative Messages in current course (from all users)"/>
+        <FIELD NAME="numbermixedmessages" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Number of Mixed Messages in current course (from all users)"/>
+        <FIELD NAME="numberneutralmessages" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Number of Neutral Messages in current course (from all users)"/>
+        <FIELD NAME="avgteachertimereply" TYPE="number" LENGTH="10" DECIMALS="2" NOTNULL="true" SEQUENCE="false" COMMENT="Average time that teacher replies"/>
+        <FIELD NAME="sentimentpercentage" TYPE="number" LENGTH="5" NOTNULL="true" SEQUENCE="false" DECIMALS="2" COMMENT="Percentage of current course sentiment, 0 is not happy and 100 very happy"/>
+        <FIELD NAME="tokensconsumed" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The tokens consumed for this analysis"/>
+        <FIELD NAME="timeaianalysis" TYPE="number" LENGTH="10" DECIMALS="2" NOTNULL="true" SEQUENCE="false" COMMENT="Total time took in ai analysis"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp at which the record was modified. It is automatically set"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp at which the record was modified. It is automatically set, and defaults to 0."/>
+        <FIELD NAME="usermodified" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user who created/modified the object. It is automatically set"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="coursetime" UNIQUE="true" FIELDS="courseid, timecreated"/>
+      </INDEXES>
+    </TABLE>
+    <TABLE NAME="block_coursesentiment_message_log" COMMENT="Table to store logs of sentiment status in a course">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="externalid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="External id"/>
+        <FIELD NAME="type" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="Object type for instance, currently only supported to 'forume'"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Course id"/>
+        <FIELD NAME="language" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Detected language code (ISO 639-1)"/>
+        <FIELD NAME="userroles" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="User role(s)"/>
+        <FIELD NAME="teachermessage" TYPE="int" LENGTH="1" NOTNULL="true" SEQUENCE="false" COMMENT="The messages was sent by a teacher (using capabilities)"/>
+        <FIELD NAME="sentiment" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="Sentiment label (e.g., POSITIVE, NEGATIVE, NEUTRAL, MIXED)"/>
+        <FIELD NAME="sentiment_score_positive" TYPE="number" LENGTH="10" DECIMALS="2" NOTNULL="true" SEQUENCE="false" COMMENT="Positive sentiment score as a decimal value"/>
+        <FIELD NAME="sentiment_score_negative" TYPE="number" LENGTH="10" DECIMALS="2" NOTNULL="true" SEQUENCE="false" COMMENT="Negative sentiment score as a decimal value"/>
+        <FIELD NAME="sentiment_score_neutral" TYPE="number" LENGTH="10" DECIMALS="2" NOTNULL="true" SEQUENCE="false" COMMENT="Neutral sentiment score as a decimal value"/>
+        <FIELD NAME="sentiment_score_mixed" TYPE="number" LENGTH="10" DECIMALS="2" NOTNULL="true" SEQUENCE="false" COMMENT="Mixed sentiment score as a decimal value"/>
+        <FIELD NAME="error" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Error message if sentiment analysis failed (nullable)"/>
+        <FIELD NAME="tokensconsumed" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The tokens consumed for this analysis"/>
+        <FIELD NAME="timeaianalysis" TYPE="number" LENGTH="10" DECIMALS="2" NOTNULL="true" SEQUENCE="false" COMMENT="Total time took in ai analysis"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp at which the record was modified. It is automatically set"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The timestamp at which the record was modified. It is automatically set, and defaults to 0."/>
+        <FIELD NAME="usermodified" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The user who created/modified the object. It is automatically set"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="extenalidtype" UNIQUE="true" FIELDS="externalid, type"/>
+      </INDEXES>
+    </TABLE>
+  </TABLES>
+</XMLDB>

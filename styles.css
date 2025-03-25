@@ -1,0 +1,54 @@
+.coursesentiment-chart canvas {
+    width: 100% !important;
+    height: auto !important;
+    max-width: 100%;
+}
+
+.block_coursesentiment-content-container .block_coursesentiment-item {
+    padding: 10px;
+    color: #fff;
+    text-align: center;
+    border-radius: 0.5rem;
+    margin: 0.5rem;
+}
+
+/* Cantonades només per l'element positiu */
+.block_coursesentiment-positives {
+    background-color: #21c586;
+}
+
+.block_coursesentiment-negatives {
+    background-color: #da5350;
+}
+
+.block_coursesentiment-neutral {
+    background-color: #e68f5b;
+}
+
+.block_coursesentiment-mixed {
+    background-color: #3ad5c3;
+}
+
+.block_coursesentiment-item {
+    font-size: 1.2rem;
+}
+
+.block_coursesentiment-label {
+    font-size: 0.8rem;
+}
+
+.block_coursesentiment-summarylist {
+    list-style: none;
+    padding-left: 0;
+    font-size: 0.8rem;
+    margin-bottom: 0;
+}
+
+.block_coursesentiment-summarylist ul {
+    list-style-type: none;
+    padding-left: 0rem;
+}
+
+.block_coursesentiment-summarylist li {
+    margin-bottom: 0.3rem;
+}

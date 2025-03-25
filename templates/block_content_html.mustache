@@ -1,0 +1,79 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    Block content html.
+
+    Classes required for JS:
+    * None
+
+    Data attibutes required for JS:
+    * None
+
+    Context variables required for this template:
+    * has_course_stats
+}}
+<div class="block_coursesentiment-content-container container">
+{{#has_course_stats}}
+    <div class="row">
+        <div class="col block_coursesentiment-item block_coursesentiment-positives">
+            <div class="block_coursesentiment-positives-label block_coursesentiment-label">{{#str}}positives, block_coursesentiment{{/str}}</div>
+            <div class="block_coursesentiment-positives-item block_coursesentiment-item">{{{positives}}}</div>
+        </div>
+        <div class="col block_coursesentiment-item block_coursesentiment-negatives">
+            <div class="block_coursesentiment-negatives-label block_coursesentiment-label">{{#str}}negatives, block_coursesentiment{{/str}}</div>
+            <div class="block_coursesentiment-negatives-item block_coursesentiment-item">{{{negatives}}}</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col block_coursesentiment-item block_coursesentiment-neutral">
+          <div class="block_coursesentiment-neutral-label block_coursesentiment-label">{{#str}}neutral, block_coursesentiment{{/str}}</div>
+          <div class="block_coursesentiment-neutral-item block_coursesentiment-item">{{{neutral}}}</div>
+        </div>
+        <div class="col block_coursesentiment-item block_coursesentiment-mixed">
+            <div class="block_coursesentiment-mixed-label block_coursesentiment-label">{{#str}}mixed, block_coursesentiment{{/str}}</div>
+            <div class="block_coursesentiment-mixed-item block_coursesentiment-item">{{{mixed}}}</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col block_coursesentiment-separator">
+        <hr>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col block_coursesentiment-summarylist">
+          <ul>
+              <li><strong>{{#str}}numberforums, block_coursesentiment{{/str}}:</strong> {{{numberforums}}}</li>
+              <li><strong>{{#str}}numbermessages, block_coursesentiment{{/str}}:</strong> {{{numbermessages}}}</li>
+              <li><strong>{{#str}}numbermessages, block_coursesentiment{{/str}}:</strong> {{{numbermessages}}}</li>
+              <li><strong>{{#str}}numberteachermessages, block_coursesentiment{{/str}}:</strong> {{{numberteachermessages}}}</li>
+              <li><strong>{{#str}}lastupdated, block_coursesentiment{{/str}}:</strong> {{#userdate}} {{timemodified}}, {{#str}} strftimedatetime, core_langconfig {{/str}} {{/userdate}}</li>
+          </ul>
+      </div>
+    </div>
+
+  <!--div class="row">
+    <div class="col block_coursesentiment-chart">
+        {{{chartoutput}}}
+    </div>
+  </div-->
+
+{{/has_course_stats}}
+{{^has_course_stats}}
+    <p>{{#str}}therearenodatatoshow, block_coursesentiment{{/str}}</p>
+{{/has_course_stats}}
+
+</div>
