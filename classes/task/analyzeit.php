@@ -45,7 +45,7 @@ class analyzeit extends \core\task\scheduled_task {
     // Use the logging trait to get some nice, juicy, logging.
     use \core\task\logging_trait;
 
-    private array $course_user_roles = [];
+    private array $courseuserroles = [];
 
     private  array $forums = [];
     private  int $numberdiscussions = 0;
@@ -69,7 +69,7 @@ class analyzeit extends \core\task\scheduled_task {
     public function execute() {
         global $CFG, $DB;
         $this->course_user_roles = [];
-        require_once("{$CFG->dirroot}/course/lib.php");
+        require_once "{$CFG->dirroot}/course/lib.php";
         $info = \core_plugin_manager::instance()->get_plugin_info('block_coursesentiment');
         if (is_null($info) || !$info->is_enabled()) {
             $this->log('Block block_coursesentiment is disabled!');
@@ -79,7 +79,7 @@ class analyzeit extends \core\task\scheduled_task {
         // TODO GET from other site
         $blocklist = $DB->get_field('block', 'id',  ['name' => 'coursesentiment']);
 
-        $courses = $this->get_courses_candidates($blocklist);
+        $courses = $this->getcoursescandidates($blocklist);
 
         if ($courses) {
             $this->log(" \n ");
@@ -97,7 +97,7 @@ class analyzeit extends \core\task\scheduled_task {
             $start = microtime(true);
             $lang = $course->__get('lang');
             global $CFG;
-            require_once($CFG->dirroot . '/course/lib.php');
+            require_once $CFG->dirroot . '/course/lib.php';
             $this->log(" --------------------------------- ");
             $this->log("Processing course {$course->__get('shortname')} ");
 
@@ -303,8 +303,8 @@ class analyzeit extends \core\task\scheduled_task {
             }
         }
         if ($pendingprocess) {
-            $userroles = $this->feth_user_roles($post->userid, $courseid, $coursecontext);
-            $teachermessage = $this->has_teacher_role($post->userid, $coursecontext);
+            $userroles = $this->fetchuserroles($post->userid, $courseid, $coursecontext);
+            $teachermessage = $this->hasteacherrole($post->userid, $coursecontext);
         }
 
         return ['pendingprocess' => $pendingprocess, 'courseid' => $courseid, 'id' => $post->id, 'userroles' => $userroles, 'teachermessage' => $teachermessage, 'posttime' => $posttime,
@@ -318,7 +318,7 @@ class analyzeit extends \core\task\scheduled_task {
      * @param \core\context\course $coursecontext
      * @return string
      */
-    private function feth_user_roles($userid, $courseid, \core\context\course $coursecontext) {
+    private function fetchuserroles($userid, $courseid, \core\context\course $coursecontext) {
 
         if (!isset($this->course_user_roles[$courseid])) {
             $this->course_user_roles[$courseid] = [];
@@ -342,7 +342,7 @@ class analyzeit extends \core\task\scheduled_task {
      * @return int
      * @throws \coding_exception
      */
-    private function has_teacher_role($userid, \core\context\course $coursecontext) {
+    private function hasteacherrole($userid, \core\context\course $coursecontext) {
         return has_capability('mod/assign:grade', $coursecontext, $userid) ? 1 : 0;
     }
 
@@ -352,14 +352,14 @@ class analyzeit extends \core\task\scheduled_task {
      * @param $courses
      * @return array|mixed
      */
-    private function get_courses_candidates($blocklist, $courses = []) {
+    private function getcoursescandidates($blocklist, $courses = []) {
         $search = '';
         $modulelist = '';
         list($coursesdb, $coursescount, $coursestotal) =
                 \core_course\management\helper::search_courses($search, $blocklist, $modulelist);
         $courses = $courses + $coursesdb;
         if (count($courses) < $coursestotal) {
-            $courses = $this->get_courses_candidates($blocklist, $courses);
+            $courses = $this->getcoursescandidates($blocklist, $courses);
         }
         return $courses;
 
