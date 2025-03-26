@@ -56,10 +56,10 @@ class sentimentanalyzer implements sentimentanalyzerinterface {
         }
 
         $record->set('courseid', $result['courseid']);
-        $record->set('language', $result['language']);
+        $record->set('language', empty($result['language']) ? '-' : '');
         $record->set('userroles', $result['userroles']);
         $record->set('teachermessage', $result['teachermessage']);
-        $record->set('sentiment', $result['sentiment']);
+        $record->set('sentiment', empty($result['sentiment']) ? '-' : '');
         $record->set('sentiment_score_positive', $result['sentiment_score_positive']);
         $record->set('sentiment_score_negative', $result['sentiment_score_negative']);
         $record->set('sentiment_score_neutral', $result['sentiment_score_neutral']);
@@ -71,6 +71,7 @@ class sentimentanalyzer implements sentimentanalyzerinterface {
         if ($record->get('id') > 0) {
             return $record->update();
         } else {
+            var_dump($record);
             return $record->create();
         }
     }
