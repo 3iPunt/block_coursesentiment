@@ -45,9 +45,10 @@ class analyzeit extends \core\task\scheduled_task {
     // Use the logging trait to get some nice, juicy, logging.
     use \core\task\logging_trait;
 
-    private $course_user_roles = [];
+    private array $course_user_roles = [];
 
-    private  int $numberforums = 0;
+    private  array $forums = [];
+    private  int $numberdiscussions = 0;
     private  int $numbermessages = 0;
     private  int $numberteachermessages = 0;
 
@@ -100,6 +101,12 @@ class analyzeit extends \core\task\scheduled_task {
             $this->log(" --------------------------------- ");
             $this->log("Processing course {$course->__get('shortname')} ");
 
+            $this->forums = [];
+            $this->numberdiscussions = 0;
+            $this->numberteachermessages = 0;
+            $this->numbermessages = 0;
+            $analyzer = sentimentanalyzerfactory::get_analyzer();
+
             $modinfo = get_fast_modinfo($course->__get('id'));
             $context = \context_course::instance($course->__get('id'));
 
@@ -107,7 +114,7 @@ class analyzeit extends \core\task\scheduled_task {
             foreach ($modinfo->cms as $cm) {
                 // Exclude all forums that are visible
                 if ($cm->uservisible && $cm->modname === 'forum') {
-                    $results = $results + $this->analyze_forum($cm, $course->__get('id'), $lang, $context);
+                    $results = $results + $this->analyze_forum($analyzer, $cm, $course->__get('id'), $lang, $context);
                 }
             }
             if (count($results) > 0) {
@@ -124,7 +131,7 @@ class analyzeit extends \core\task\scheduled_task {
 
     }
 
-    private function analyze_forum($cm, $courseid, $lang, course $coursecontext) {
+    private function analyze_forum($analyzer, $cm, $courseid, $lang, course $coursecontext) {
         global $CFG;
         $this->log("Processing forum {$cm->name}");
         require_once($CFG->dirroot.'/mod/forum/lib.php');
@@ -137,12 +144,9 @@ class analyzeit extends \core\task\scheduled_task {
                 -1, -1,
                 false, -1, 0, FORUM_POSTS_ALL_USER_GROUPS);
 
-        $this->numberforums = 0;
-        $this->numberteachermessages = 0;
-        $this->numbermessages = 0;
-        $analyzer = sentimentanalyzerfactory::get_analyzer();
 
-        $results = $analyzer->analyze_sentiment($this->processdiscussions($discussions, $courseid, $lang, $coursecontext));
+        $messages = $this->processdiscussions($discussions, $courseid, $lang, $coursecontext);
+        $results = $analyzer->analyze_sentiment($messages);
 
         return $results;
     }
@@ -180,7 +184,7 @@ class analyzeit extends \core\task\scheduled_task {
 
         $values = [
                 'courseid' => $course->__get('id'),
-                'numberforums' => $this->numberforums,
+                'numberforums' => count($this->forums),
                 'numbermessages' => $this->numbermessages,
                 'numberteachermessages' => $this->numberteachermessages,
                 'numberpositivemessages' => $numberpositivemessages,
@@ -231,7 +235,8 @@ class analyzeit extends \core\task\scheduled_task {
             if ($discussion->userdeleted) {
                 continue;
             }
-            $this->numberforums ++;
+            $this->forums[$discussion->forum] = 1;
+            $this->numberdiscussions ++;
             $posts = forum_get_all_discussion_posts($discussion->discussion, 'p.created ASC');
 
             $discussion->subject = $discussion->name;
