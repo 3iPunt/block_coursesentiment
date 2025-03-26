@@ -84,5 +84,7 @@ $string['mixed'] = 'Barrejat';
 
 $string['numbermessages'] = 'Número missatges';
 $string['numberteachermessages'] = 'Número missatges professorat';
+$string['numbermessagesnotanalyzed'] = 'Número missatges no analitzats';
 $string['numberforums'] = 'Número fòrums';
+$string['numberdiscussions'] = 'Número debats';
 $string['lastupdated'] = 'Darrera actualització';

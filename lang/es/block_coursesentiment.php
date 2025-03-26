@@ -84,5 +84,7 @@ $string['mixed'] = 'Mixto';
 
 $string['numbermessages'] = 'Número mensajes';
 $string['numberteachermessages'] = 'Número mensajes profesorado';
+$string['numbermessagesnotanalyzed'] = 'Número mensajes no analizados';
 $string['numberforums'] = 'Número foros';
+$string['numberdiscussions'] = 'Número debates';
 $string['lastupdated'] = 'Última actualización';

@@ -59,12 +59,22 @@ class courselog extends persistent {
                         'default' => 0,
                         'description' => 'Number of forums.',
                 ),
+                'numberdiscussions' => array(
+                        'type' => PARAM_INT,
+                        'default' => 0,
+                        'description' => 'Number of discussions.',
+                ),
                 'numbermessages' => array(
                         'type' => PARAM_INT,
                         'default' => 0,
                         'description' => 'Number of teacher messages.',
                 ),
                 'numberteachermessages' => array(
+                        'type' => PARAM_INT,
+                        'default' => 0,
+                        'description' => 'Number of teacher messages.',
+                ),
+                'numbermessagesnotanalyzed' => array(
                         'type' => PARAM_INT,
                         'default' => 0,
                         'description' => 'Number of teacher messages.',

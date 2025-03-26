@@ -182,10 +182,15 @@ class analyzeit extends \core\task\scheduled_task {
             }
         }
 
+        $numbermessagesnotanalyzed = $this->numbermessages - $numberpositivemessages - $numbernegativemessages -
+                $numbermixedmessages - $numberneutralmessages;
+
         $values = [
                 'courseid' => $course->__get('id'),
                 'numberforums' => count($this->forums),
+                'numberdiscussions' => $this->numberdiscussions,
                 'numbermessages' => $this->numbermessages,
+                'numbermessagesnotanalyzed' => $numbermessagesnotanalyzed,
                 'numberteachermessages' => $this->numberteachermessages,
                 'numberpositivemessages' => $numberpositivemessages,
                 'numbernegativemessages' => $numbernegativemessages,

@@ -61,8 +61,10 @@ class renderer extends plugin_renderer_base {
 
             $render->timemodified = $courserecord->get('timemodified');
             $render->numberforums = $courserecord->get('numberforums');
+            $render->numberdiscussions = $courserecord->get('numberdiscussions');
             $render->numbermessages = $courserecord->get('numbermessages');
             $render->numberteachermessages = $courserecord->get('numberteachermessages');
+            $render->numbermessagesnotanalyzed = $courserecord->get('numbermessagesnotanalyzed');
 
         }
 

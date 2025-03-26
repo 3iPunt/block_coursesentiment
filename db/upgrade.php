@@ -34,12 +34,84 @@ defined('MOODLE_INTERNAL') || die();
 function xmldb_block_coursesentiment_upgrade($oldversion) {
     global $DB;
 
-    $dbman = $DB->get_manager();
-
     // For further information please read {@link https://docs.moodle.org/dev/Upgrade_API}.
     //
     // You will also have to create the db/install.xml file by using the XMLDB Editor.
     // Documentation for the XMLDB Editor can be found at {@link https://docs.moodle.org/dev/XMLDB_editor}.
 
+    $dbman = $DB->get_manager(); // Loads ddl manager and xmldb classes.
+
+    if ($oldversion < 2025022601) {
+        // Define field activity to be added to assign.
+        $table = new xmldb_table('block_coursesentiment');
+        $field = new xmldb_field(
+                'numberdiscussions',
+                XMLDB_TYPE_INTEGER,
+                10,
+                null,
+                XMLDB_NOTNULL,
+                null,
+                '0',
+                'numberforums'
+        );
+        // Conditionally launch add field activity.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        $tablelog = new xmldb_table('block_coursesentiment_log');
+        $fieldlog = new xmldb_field(
+                'numberdiscussions',
+                XMLDB_TYPE_INTEGER,
+                10,
+                null,
+                XMLDB_NOTNULL,
+                null,
+                '0',
+                'numberforums'
+        );
+        // Conditionally launch add field activity.
+        if (!$dbman->field_exists($tablelog, $fieldlog)) {
+            $dbman->add_field($tablelog, $fieldlog);
+        }
+
+        // Assign savepoint reached.
+        upgrade_block_savepoint(true, 2025022601, 'coursesentiment');
+    }
+    if ($oldversion < 2025022602) {
+        // Define field activity to be added to assign.
+        $table = new xmldb_table('block_coursesentiment');
+        $field = new xmldb_field(
+                'numbermessagesnotanalyzed',
+                XMLDB_TYPE_INTEGER,
+                10,
+                null,
+                XMLDB_NOTNULL,
+                null,
+                '0',
+                'numbermessages'
+        );
+        // Conditionally launch add field activity.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        $tablelog = new xmldb_table('block_coursesentiment_log');
+        $fieldlog = new xmldb_field(
+                'numbermessagesnotanalyzed',
+                XMLDB_TYPE_INTEGER,
+                10,
+                null,
+                XMLDB_NOTNULL,
+                null,
+                '0',
+                'numbermessages'
+        );
+        // Conditionally launch add field activity.
+        if (!$dbman->field_exists($tablelog, $fieldlog)) {
+            $dbman->add_field($tablelog, $fieldlog);
+        }
+
+        // Assign savepoint reached.
+        upgrade_block_savepoint(true, 2025022602, 'coursesentiment');
+    }
     return true;
 }

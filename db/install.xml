@@ -8,7 +8,9 @@
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Course id"/>
         <FIELD NAME="numberforums" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Number of Forums in current course"/>
+        <FIELD NAME="numberdiscussions" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Number of discussions in current course"/>
         <FIELD NAME="numbermessages" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Number of Messages in current course (from all users)"/>
+        <FIELD NAME="numbermessagesnotanalyzed" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Number of Messages not analyzed in current course (from all users)"/>
         <FIELD NAME="numberteachermessages" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Number of Teacher Messages in current course"/>
         <FIELD NAME="numberpositivemessages" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Number of Positive Messages in current course (from all users)"/>
         <FIELD NAME="numbernegativemessages" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Number of Negative Messages in current course (from all users)"/>
@@ -32,6 +34,8 @@
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Course id"/>
         <FIELD NAME="numberforums" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Number of Forums in current course"/>
+        <FIELD NAME="numberdiscussions" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Number of discussions in current course"/>
+        <FIELD NAME="numbermessagesnotanalyzed" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Number of Messages not analyzed in current course (from all users)"/>
         <FIELD NAME="numbermessages" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Number of Messages in current course (from all users)"/>
         <FIELD NAME="numberteachermessages" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Number of Teacher Messages in current course"/>
         <FIELD NAME="numberpositivemessages" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="Number of Positive Messages in current course (from all users)"/>
