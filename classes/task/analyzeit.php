@@ -52,8 +52,6 @@ class analyzeit extends \core\task\scheduled_task {
     private  int $numbermessages = 0;
     private  int $numberteachermessages = 0;
 
-
-
     /**
      * Name for this task.
      *
