@@ -82,9 +82,15 @@ $string['negatives'] = 'Negatius';
 $string['neutral'] = 'Neutral';
 $string['mixed'] = 'Barrejat';
 
-$string['numbermessages'] = 'Número missatges';
-$string['numberteachermessages'] = 'Número missatges professorat';
-$string['numbermessagesnotanalyzed'] = 'Número missatges no analitzats';
-$string['numberforums'] = 'Número fòrums';
-$string['numberdiscussions'] = 'Número debats';
+$string['numbermessages'] = 'Número missatges enviats';
+$string['numberteachermessages'] = 'Número missatges enviats pel professorat';
+$string['numbermessagesnotanalyzed'] = 'Número missatges no analitzats, normalment és perquè no es detecta l\'idioma o el cos del missatge és molt curt';
+$string['numberforums'] = 'Número fòrums antalitzats';
+$string['numberdiscussions'] = 'Número debats analitzats';
+$string['messages'] = 'Missatges';
+$string['teachermessages'] = 'Missatges professorat';
+$string['messagesnotanalyzed'] = 'Missatges no analitzats';
+$string['forums'] = 'Fòrums';
+$string['discussions'] = 'Debats';
+
 $string['lastupdated'] = 'Darrera actualització';

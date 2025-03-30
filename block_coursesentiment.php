@@ -53,7 +53,11 @@ class block_coursesentiment extends block_base {
             $this->content->footer = '';
 
             $renderer = $this->page->get_renderer('block_coursesentiment');
-            $this->content->text = $renderer->get_block_content_html($this->page->course->id);
+            if ($this->page->course->id > 1) {
+                $this->content->text = $renderer->get_block_content_html($this->page->course->id);
+            } else {
+                $this->content->text = $renderer->get_block_content_manager();
+            }
 
         } else {
             return '';

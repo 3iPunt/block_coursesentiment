@@ -53,22 +53,95 @@ class renderer extends plugin_renderer_base {
             $chart->add_series($series);
             $chart->set_labels($labels);
             $render->chartoutput = $OUTPUT->render($chart);
-
-            $render->positives = $courserecord->get('numberpositivemessages');
-            $render->negatives = $courserecord->get('numbernegativemessages');
-            $render->mixed = $courserecord->get('numbermixedmessages');
-            $render->neutral = $courserecord->get('numberneutralmessages');
-
-            $render->timemodified = $courserecord->get('timemodified');
-            $render->numberforums = $courserecord->get('numberforums');
-            $render->numberdiscussions = $courserecord->get('numberdiscussions');
-            $render->numbermessages = $courserecord->get('numbermessages');
-            $render->numberteachermessages = $courserecord->get('numberteachermessages');
-            $render->numbermessagesnotanalyzed = $courserecord->get('numbermessagesnotanalyzed');
-
+            $render = $this->add_course_stats($courserecord, $render);
         }
 
         return $this->render_from_template('block_coursesentiment/block_content_html', $render);
+    }
+
+    private function add_course_stats(coursesentiment $courserecord, stdClass $data) : stdClass {
+
+        $data->positives = $courserecord->get('numberpositivemessages');
+        $data->negatives = $courserecord->get('numbernegativemessages');
+        $data->mixed = $courserecord->get('numbermixedmessages');
+        $data->neutral = $courserecord->get('numberneutralmessages');
+        $total = $data->positives + $data->negatives + $data->mixed + $data->neutral;
+        $data->positivespercent = $total !== 0 ? ($data->positives / $total) * 100 : 0;
+        $data->negativespercent = $total !== 0 ? ($data->negatives / $total) * 100 : 0;
+        $data->mixedpercent   = $total !== 0 ? ($data->mixed / $total) * 100 : 0;
+        $data->neutralpercent     = $total !== 0 ? ($data->neutral / $total) * 100 : 0;
+
+
+        $data->timemodified = $courserecord->get('timemodified');
+        $data->numberforums = $courserecord->get('numberforums');
+        $data->numberdiscussions = $courserecord->get('numberdiscussions');
+        $data->numbermessages = $courserecord->get('numbermessages');
+        $data->numberteachermessages = $courserecord->get('numberteachermessages');
+        $data->numbermessagesnotanalyzed = $courserecord->get('numbermessagesnotanalyzed');
+
+        return $data;
+    }
+
+    private function has_block_enabled(int $courseid) {
+        global $DB;
+        $exists = $DB->record_exists('block_instances', [
+                'blockname' => 'coursesentiment',
+                'parentcontextid' => \context_course::instance($courseid)->id
+        ]);
+        return $exists;
+    }
+    /**
+     * @return string
+     * @throws moodle_exception
+     */
+    public function get_block_content_manager(): string {
+        $render = new stdClass();
+
+        $courserecords = coursesentiment::get_records();
+
+
+        $courses = [];
+        foreach ($courserecords as $courserecord) {
+            if ($this->has_block_enabled($courserecord->get('courseid'))) {
+                $data = new stdClass();
+                $data = $this->add_course_stats($courserecord, $data);
+                $course = get_course($courserecord->get('courseid'));
+                $data->fullname = $course->fullname;
+                $data->id = $course->id;
+                $data->courseurl = new \moodle_url('/course/view.php', ['id' => $data->id]);
+                $data->imageurl = $this->get_course_image_url($course);
+                $courses[] = $data;
+
+            }
+        }
+        $render->has_course_stats = count($courses) > 0;
+        $render->courses = $courses;
+
+        return $this->render_from_template('block_coursesentiment/block_general_view', $render);
+    }
+
+    private function get_course_image_url(stdClass $course): ?string {
+
+        $context = \context_course::instance($course->id);
+        $fs = get_file_storage();
+        $files = $fs->get_area_files($context->id, 'course', 'overviewfiles', 0, 'sortorder', false);
+
+        foreach ($files as $file) {
+            $mimetype = $file->get_mimetype();
+            if ($mimetype === 'image/jpeg' || $mimetype === 'image/png' || $mimetype === 'image/gif') {
+
+                return \moodle_url::make_pluginfile_url(
+                        $file->get_contextid(),
+                        $file->get_component(),
+                        $file->get_filearea(),
+                        null,
+                        $file->get_filepath(),
+                        $file->get_filename()
+                )->out();
+            }
+        }
+
+        return null; // Si no hi ha imatge
     }
 
 }

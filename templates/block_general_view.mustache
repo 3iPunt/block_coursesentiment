@@ -1,0 +1,57 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    Block content html.
+
+    Classes required for JS:
+    * None
+
+    Data attibutes required for JS:
+    * None
+
+    Context variables required for this template:
+    * has_course_stats
+}}
+<div class="block_coursesentiment-content-container container">
+{{#has_course_stats}}
+    {{#courses}}
+        <div class="row">
+            <div class="col-2 block_coursesentiment-separator">
+                {{#imageurl}}
+                    <img src="{{imageurl}}" alt="{{fullname}}" class="img-fluid" />
+                {{/imageurl}}
+            </div>
+            <div class="col-4 block_coursesentiment-separator">
+                <a href="{{courseurl}}" target="_blank">{{fullname}}</a>
+            </div>
+            <div class="col-6 block_coursesentiment-separator">
+                <div class="line-progress">
+                    <div class="block_coursesentiment-progresspart positives" style="width: {{positivespercent}}%"></div>
+                    <div class="block_coursesentiment-progresspart negatives" style="width: {{negativespercent}}%"></div>
+                    <div class="block_coursesentiment-progresspart neutral" style="width: {{neutralpercent}}%"></div>
+                    <div class="block_coursesentiment-progresspart mixed" style="width: {{mixedpercent}}%"></div>
+                </div>
+            </div>
+        </div>
+   {{/courses}}
+
+{{/has_course_stats}}
+{{^has_course_stats}}
+    <p>{{#str}}therearenodatatoshow, block_coursesentiment{{/str}}</p>
+{{/has_course_stats}}
+
+</div>
