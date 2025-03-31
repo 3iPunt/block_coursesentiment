@@ -168,6 +168,18 @@ if ($hassiteconfig) {
                 ));
         }
 
+        $settings->add(new admin_setting_configselect(
+                'block_coursesentiment/defaultview',
+                get_string('defaultview', 'block_coursesentiment'),
+                get_string('defaultview_desc', 'block_coursesentiment'),
+                'all',
+                [
+                        'summary' => get_string('view_summary', 'block_coursesentiment'),
+                        'chart' => get_string('view_graph', 'block_coursesentiment'),
+                        'all' => get_string('view_all', 'block_coursesentiment')
+                ]
+        ));
+
         $settings->add(new admin_setting_heading(
             'block_coursesentiment/coursecategory',
             get_string('restricttocategory', 'block_coursesentiment'),

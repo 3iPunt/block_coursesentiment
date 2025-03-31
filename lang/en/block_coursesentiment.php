@@ -92,3 +92,9 @@ $string['messagesnotanalyzed'] = 'Messages not analyzed';
 $string['forums'] = 'Forumz';
 $string['numberdiscussions'] = 'Discussion';
 $string['lastupdated'] = 'Last update';
+
+$string['defaultview'] = 'Default view mode';
+$string['defaultview_desc'] = 'Choose which section to show by default when adding the block.';
+$string['view_summary'] = 'Summary only';
+$string['view_chart'] = 'Chart only';
+$string['view_all'] = 'Show all (summary and chart)';

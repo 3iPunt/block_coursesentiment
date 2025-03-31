@@ -28,7 +28,8 @@
 }}
 <div class="block_coursesentiment-content-container container">
 {{#has_course_stats}}
-    <div class="row">
+    {{#show_summary}}
+     <div class="row">
         <div class="col block_coursesentiment-item block_coursesentiment-positives">
             <div class="block_coursesentiment-positives-label block_coursesentiment-label">{{#str}}positives, block_coursesentiment{{/str}}</div>
             <div class="block_coursesentiment-positives-item block_coursesentiment-item-content">{{{positives}}}</div>
@@ -59,7 +60,16 @@
             </div>
         </div>
     </div>
+
+    {{/show_summary}}
+    {{#show_chart}}
     <hr>
+    <div class="row content-chart">
+      {{{chartoutput}}}
+    </div>
+    {{/show_chart}}
+
+   <hr>
     <div class="row">
       <div class="col block_coursesentiment-summarylist">
           <ul>
@@ -71,10 +81,6 @@
               <li><strong>{{#str}}lastupdated, block_coursesentiment{{/str}}:</strong> {{#userdate}} {{timemodified}}, {{#str}} strftimedatetime, core_langconfig {{/str}} {{/userdate}}</li>
           </ul>
       </div>
-    </div>
-    <hr>
-    <div class="row content-chart">
-      {{{chartoutput}}}
     </div>
 
 {{/has_course_stats}}

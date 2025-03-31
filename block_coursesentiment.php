@@ -53,8 +53,9 @@ class block_coursesentiment extends block_base {
             $this->content->footer = '';
 
             $renderer = $this->page->get_renderer('block_coursesentiment');
-            if ($this->page->course->id > 1) {
-                $this->content->text = $renderer->get_block_content_html($this->page->course->id);
+            if (!self::on_site_page($this->page)) {
+                $view = $this->config->viewmode ?? get_config('block_coursesentiment', 'defaultview');
+                $this->content->text = $renderer->get_block_content_html($this->page->course->id, $view);
             } else {
                 $this->content->text = $renderer->get_block_content_manager();
             }
@@ -64,6 +65,31 @@ class block_coursesentiment extends block_base {
         }
 
         return $this->content;
+    }
+
+    /**
+     * Checks whether the given page is site-level (Dashboard or Front page) or not.
+     *
+     * @param moodle_page $page the page to check, or the current page if not passed.
+     * @return boolean True when on the Dashboard or Site home page.
+     */
+    public static function on_site_page($page = null) {
+        global $PAGE;   // phpcs:ignore moodle.PHP.ForbiddenGlobalUse.BadGlobal
+
+        $page = $page ?? $PAGE; // phpcs:ignore moodle.PHP.ForbiddenGlobalUse.BadGlobal
+        $context = $page->context ?? null;
+
+        if (!$page || !$context) {
+            return false;
+        } else if ($context->contextlevel === CONTEXT_SYSTEM && $page->requestorigin === 'restore') {
+            return false; // When restoring from a backup, pretend the page is course-level.
+        } else if ($context->contextlevel === CONTEXT_COURSE && $context->instanceid == SITEID) {
+            return true;  // Front page.
+        } else if ($context->contextlevel < CONTEXT_COURSE) {
+            return true;  // System, user (i.e. dashboard), course category.
+        } else {
+            return false;
+        }
     }
 
     /**

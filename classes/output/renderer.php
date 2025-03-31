@@ -29,30 +29,34 @@ class renderer extends plugin_renderer_base {
      * @return string
      * @throws moodle_exception
      */
-    public function get_block_content_html($courseid): string {
+    public function get_block_content_html(int $courseid, string $view): string {
         $render = new stdClass();
         $courserecord = coursesentiment::get_record(['courseid' => $courseid]);
 
         $render->has_course_stats = false;
         if ($courserecord) {
             $render->has_course_stats = true;
+            $render->show_chart = ($view == 'all' || $view == 'chart');
+            $render->show_summary = ($view == 'all' || $view == 'summary');
 
             global $OUTPUT;
 
-            $series = new \core\chart_series(get_string('sentiment', 'block_coursesentiment'),
-                    [$courserecord->get('numberpositivemessages'),
-                            $courserecord->get('numbernegativemessages'), $courserecord->get('numbermixedmessages'),
-                            $courserecord->get('numberneutralmessages')]);
-            $labels = [get_string('positives', 'block_coursesentiment'),
-                    get_string('negatives', 'block_coursesentiment'),
-                    get_string('neutral', 'block_coursesentiment'),
-                    get_string('mixed', 'block_coursesentiment')];
+            if ($render->show_chart) {
+                $series = new \core\chart_series(get_string('sentiment', 'block_coursesentiment'),
+                        [$courserecord->get('numberpositivemessages'),
+                                $courserecord->get('numbernegativemessages'), $courserecord->get('numbermixedmessages'),
+                                $courserecord->get('numberneutralmessages')]);
+                $labels = [get_string('positives', 'block_coursesentiment'),
+                        get_string('negatives', 'block_coursesentiment'),
+                        get_string('neutral', 'block_coursesentiment'),
+                        get_string('mixed', 'block_coursesentiment')];
 
-            $chart = new \core\chart_pie();
-            $chart->set_title(get_string('pluginname', 'block_coursesentiment'));
-            $chart->add_series($series);
-            $chart->set_labels($labels);
-            $render->chartoutput = $OUTPUT->render($chart);
+                $chart = new \core\chart_pie();
+                $chart->set_title(get_string('pluginname', 'block_coursesentiment'));
+                $chart->add_series($series);
+                $chart->set_labels($labels);
+                $render->chartoutput = $OUTPUT->render($chart);
+            }
             $render = $this->add_course_stats($courserecord, $render);
         }
 

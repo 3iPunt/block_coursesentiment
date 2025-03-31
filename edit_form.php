@@ -33,7 +33,19 @@ class block_coursesentiment_edit_form extends block_edit_form {
         // Section header title.
         $mform->addElement('header', 'configheader', get_string('blocksettings', 'block'));
 
-        // Please keep in mind that all elements defined here must start with 'config_'.
+        $mform->addElement('select', 'config_viewmode',
+                get_string('defaultview', 'block_coursesentiment'),
+                [
+                        'summary' => get_string('view_summary', 'block_coursesentiment'),
+                        'chart' => get_string('view_chart', 'block_coursesentiment'),
+                        'all' => get_string('view_all', 'block_coursesentiment')
+                ]
+        );
+
+        // Valor per defecte: si s’està editant, agafa el valor existent; si és nou, agafa de la configuració global
+        $default = isset($this->block->config->viewmode) ? $this->block->config->viewmode : get_config('block_coursesentiment', 'defaultview');
+        $mform->setDefault('config_viewmode', $default);
+
 
     }
 }

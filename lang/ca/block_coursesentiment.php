@@ -92,5 +92,10 @@ $string['teachermessages'] = 'Missatges professorat';
 $string['messagesnotanalyzed'] = 'Missatges no analitzats';
 $string['forums'] = 'Fòrums';
 $string['discussions'] = 'Debats';
-
 $string['lastupdated'] = 'Darrera actualització';
+
+$string['defaultview'] = 'Vista per defecte';
+$string['defaultview_desc'] = 'Selecciona quina secció es mostrarà per defecte en afegir el bloc.';
+$string['view_summary'] = 'Només resum';
+$string['view_chart'] = 'Només gràfica';
+$string['view_all'] = 'Mostrar tot (resum i gràfica)';

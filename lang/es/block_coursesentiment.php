@@ -93,3 +93,9 @@ $string['messagesnotanalyzed'] = 'Mensajes no analizados';
 $string['forums'] = 'Foros';
 $string['discussions'] = 'Debates';
 $string['lastupdated'] = 'Última actualización';
+
+$string['defaultview'] = 'Vista por defecto';
+$string['defaultview_desc'] = 'Selecciona qué sección se mostrará por defecto al añadir el bloque.';
+$string['view_summary'] = 'Solo resumen';
+$string['view_chart'] = 'Solo gráfica';
+$string['view_all'] = 'Mostrar todo (resumen y gráfica)';
