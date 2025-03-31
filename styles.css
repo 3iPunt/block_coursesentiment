@@ -108,9 +108,17 @@
 .line-progress .block_coursesentiment-progresspart.mixed {
     background-color: #3ad5c3;
 }
-div.block_coursesentiment-separator img.img-fluid {
+div.block_coursesentiment-separator {
+    border-bottom: 1px solid #ccc;
+    width: 90%;
+    margin: 0 auto;
+    padding-bottom: 0.5rem;
+    padding-top: 0.5rem;
+}
+div.block_coursesentiment-col img.img-fluid {
     border-radius: 50%;
-    height: 50px;
-    width: 50px;
+    height: 45px;
+    width: 45px;
+    flex-grow: 1;
     object-fit: cover;
 }

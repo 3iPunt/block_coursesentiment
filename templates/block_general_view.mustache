@@ -29,16 +29,16 @@
 <div class="block_coursesentiment-content-container container">
 {{#has_course_stats}}
     {{#courses}}
-        <div class="row">
-            <div class="col-2 block_coursesentiment-separator">
+        <div class="row align-items-center">
+            <div class="col block_coursesentiment-col">
                 {{#imageurl}}
                     <img src="{{imageurl}}" alt="{{fullname}}" class="img-fluid" />
                 {{/imageurl}}
             </div>
-            <div class="col-4 block_coursesentiment-separator">
+            <div class="col-3 block_coursesentiment-col">
                 <a href="{{courseurl}}" target="_blank">{{fullname}}</a>
             </div>
-            <div class="col-6 block_coursesentiment-separator">
+            <div class="col-8 block_coursesentiment-col">
                 <div class="line-progress">
                     <div class="block_coursesentiment-progresspart positives" style="width: {{positivespercent}}%"></div>
                     <div class="block_coursesentiment-progresspart negatives" style="width: {{negativespercent}}%"></div>
@@ -46,6 +46,8 @@
                     <div class="block_coursesentiment-progresspart mixed" style="width: {{mixedpercent}}%"></div>
                 </div>
             </div>
+        </div>
+        <div class="block_coursesentiment-separator">
         </div>
    {{/courses}}
 
