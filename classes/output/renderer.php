@@ -39,7 +39,7 @@ class renderer extends plugin_renderer_base {
             $render->show_chart = ($view == 'all' || $view == 'chart');
             $render->show_summary = ($view == 'all' || $view == 'summary');
 
-            global $OUTPUT;
+            global $OUTPUT, $CFG;
 
             if ($render->show_chart) {
                 $series = new \core\chart_series(get_string('sentiment', 'block_coursesentiment'),
@@ -56,6 +56,7 @@ class renderer extends plugin_renderer_base {
                 $chart->set_title(get_string('pluginname', 'block_coursesentiment'));
                 $chart->add_series($series);
                 $chart->set_labels($labels);
+                $CFG->chart_colorset = ["#21c586", "#da5350", "#e68f5b", "#3ad5c3"];
                 $render->chartoutput = $OUTPUT->render($chart);
             }
             $render = $this->add_course_stats($courserecord, $render);
