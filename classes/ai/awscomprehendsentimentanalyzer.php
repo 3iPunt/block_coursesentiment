@@ -41,12 +41,10 @@ class awscomprehendsentimentanalyzer extends sentimentanalyzer implements sentim
     const MAX_BYTES_AWS_COMPRENHEND_MSG = 5000;
 
     public function __construct() {
-        global $CFG;
-        require_once($CFG->dirroot . '/blocks/coursesentiment/settings.php');
 
         $config = get_config('block_coursesentiment');
 
-        $this->debugmessage = !empty($config->aws_debugmessage);
+        $this->debugmessage = !empty($config->debugmessage);
         if (!empty($config->aws_usecredchain)) {
             $this->client = new ComprehendClient([
                     'version' => 'latest',
@@ -138,48 +136,9 @@ class awscomprehendsentimentanalyzer extends sentimentanalyzer implements sentim
                     ];
                 }
                 $result = $this->aggregate_weighted_sentiments($sentiments);
-
-                $this->logsentimentmessage('Block block_coursesentiment analyze_sentiment result ' . print_r($result, 1));
-                $results[] = array(
-                        'id' => $msg['id'],
-                        'type' => $msg['type'],
-                        'logid' => $msg['logid'],
-                        'subject' => $msg['subject'],
-                        'message' => $txt,
-                        'language' => $language,
-                        'courseid' => $msg['courseid'],
-                        'userroles' => $msg['userroles'],
-                        'teachermessage' => $msg['teachermessage'],
-                        'sentiment' => $result['Sentiment'],
-                        'sentiment_score_positive' => $result['SentimentScore']['Positive']??0,
-                        'sentiment_score_negative' => $result['SentimentScore']['Negative']??0,
-                        'sentiment_score_neutral' => $result['SentimentScore']['Neutral']??0,
-                        'sentiment_score_mixed' => $result['SentimentScore']['Mixed']??0,
-                        'error' => false,
-                        'timeaianalysis' => round((microtime(true) - $start) * 1000, 2),
-                        'tokensconsumed' => 0
-                );
+                $results[] = $this->add_results($msg, $txt, $language, $result, $start);
             } else {
-
-                $results[] = array(
-                        'id' => $msg['id'],
-                        'type' => $msg['type'],
-                        'logid' => $msg['logid'],
-                        'subject' => $msg['subject'],
-                        'message' => $msg['message'],
-                        'language' => $language,
-                        'courseid' => $msg['courseid'],
-                        'userroles' => $msg['userroles'],
-                        'teachermessage' => $msg['teachermessage'],
-                        'sentiment' => null,
-                        'sentiment_score_positive' => 0,
-                        'sentiment_score_negative' => 0,
-                        'sentiment_score_neutral' => 0,
-                        'sentiment_score_mixed' => 0,
-                        'error' => 'Unsupported language',
-                        'timeaianalysis' => round((microtime(true) - $start) * 1000, 2),
-                        'tokensconsumed' => 0
-                );
+                $results[] = $this->add_error_results($msg, $language, $start, 'Unsupported language');
             }
         }
         $this->store_logs($results);
@@ -204,7 +163,7 @@ class awscomprehendsentimentanalyzer extends sentimentanalyzer implements sentim
             $aggregated['Mixed']    += $sentiment['Mixed']    * $weight;
         }
 
-        // Calcula el sentiment majoritari després de ponderar
+        // Calculates the majority sentiment after pondering
         $max_sentiment = array_keys($aggregated, max($aggregated))[0];
 
         return [

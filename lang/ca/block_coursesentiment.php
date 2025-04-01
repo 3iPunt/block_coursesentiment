@@ -99,3 +99,5 @@ $string['defaultview_desc'] = 'Selecciona quina secció es mostrarà per defecte
 $string['view_summary'] = 'Només resum';
 $string['view_chart'] = 'Només gràfica';
 $string['view_all'] = 'Mostrar tot (resum i gràfica)';
+$string['username'] = 'User name';
+$string['usernamedesc'] = 'El nom que la IA utilitzarà internament per referir-se a l’usuari.';

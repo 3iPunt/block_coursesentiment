@@ -98,3 +98,6 @@ $string['defaultview_desc'] = 'Choose which section to show by default when addi
 $string['view_summary'] = 'Summary only';
 $string['view_chart'] = 'Chart only';
 $string['view_all'] = 'Show all (summary and chart)';
+
+$string['username'] = 'User name';
+$string['usernamedesc'] = 'The name that the AI will use for the user internally.';

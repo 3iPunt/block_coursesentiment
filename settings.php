@@ -46,22 +46,14 @@ if ($hassiteconfig) {
 
         if ($type === 'openai') {
                 $settings->add(new admin_setting_configpasswordunmask(
-                    'block_coursesentiment/apikey',
+                    'block_coursesentiment/openai_apikey',
                     new lang_string('apikey', 'block_coursesentiment'),
                     new lang_string('apikey_desc', 'block_coursesentiment'),
                     ''
                 ));
 
-                $settings->add(new admin_setting_configtext(
-                    'block_coursesentiment/orgid',
-                    new lang_string('orgid', 'block_coursesentiment'),
-                    new lang_string('orgid_desc', 'block_coursesentiment'),
-                    '',
-                    PARAM_TEXT
-                ));
-
                 $settings->add(new admin_setting_configselect(
-                    'block_coursesentiment/model',
+                    'block_coursesentiment/openai_model',
                     get_string('model', 'block_coursesentiment'),
                     get_string('modeldesc', 'block_coursesentiment'),
                     'gpt-3.5-turbo',
@@ -69,33 +61,41 @@ if ($hassiteconfig) {
                 ));
 
                 $settings->add(new admin_setting_configtext(
-                    'block_coursesentiment/temperature',
+                    'block_coursesentiment/openai_temperature',
                     get_string('temperature', 'block_coursesentiment'),
                     get_string('temperaturedesc', 'block_coursesentiment'),
                     0.8,
                     PARAM_FLOAT
                 ));
 
+                /*
                 $settings->add(new admin_setting_configcheckbox(
-                    'block_coursesentiment/enableglobalratelimit',
+                    'block_coursesentiment/openai_enableglobalratelimit',
                     new lang_string('enableglobalratelimit', 'block_coursesentiment'),
                     new lang_string('enableglobalratelimit_desc', 'block_coursesentiment'),
                     0
                 ));
 
                 $settings->add(new admin_setting_configtext(
-                    'block_coursesentiment/globalratelimit',
+                    'block_coursesentiment/openai_globalratelimit',
                     new lang_string('globalratelimit', 'block_coursesentiment'),
                     new lang_string('globalratelimit_desc', 'block_coursesentiment'),
                     100,
                     PARAM_INT
                 ));
                 $settings->hide_if('block_coursesentiment/globalratelimit', 'block_coursesentiment/enableglobalratelimit', 'eq', 0);
-
-
+                */
 
                 $settings->add(new admin_setting_configtext(
-                        'block_coursesentiment/maxlength',
+                        'block_coursesentiment/username',
+                        get_string('username', 'block_coursesentiment'),
+                        get_string('usernamedesc', 'block_coursesentiment'),
+                        'User',
+                        PARAM_TEXT
+                ));
+
+                $settings->add(new admin_setting_configtext(
+                        'block_coursesentiment/openai_maxlength',
                         get_string('maxlength', 'block_coursesentiment'),
                         get_string('maxlengthdesc', 'block_coursesentiment'),
                         500,
@@ -103,7 +103,7 @@ if ($hassiteconfig) {
                     ));
         
                 $settings->add(new admin_setting_configtext(
-                'block_coursesentiment/topp',
+                'block_coursesentiment/openai_topp',
                 get_string('topp', 'block_coursesentiment'),
                 get_string('toppdesc', 'block_coursesentiment'),
                 1,
@@ -111,7 +111,7 @@ if ($hassiteconfig) {
                 ));
 
                 $settings->add(new admin_setting_configtext(
-                'block_coursesentiment/frequency',
+                'block_coursesentiment/openai_frequency',
                 get_string('frequency', 'block_coursesentiment'),
                 get_string('frequencydesc', 'block_coursesentiment'),
                 1,
@@ -119,7 +119,7 @@ if ($hassiteconfig) {
                 ));
 
                 $settings->add(new admin_setting_configtext(
-                'block_coursesentiment/presence',
+                'block_coursesentiment/openai_presence',
                 get_string('presence', 'block_coursesentiment'),
                 get_string('presencedesc', 'block_coursesentiment'),
                 1,
@@ -158,15 +158,15 @@ if ($hassiteconfig) {
                         'eu-west-1',
                         PARAM_TEXT
                 ));
-
-
-                $settings->add(new admin_setting_configcheckbox(
-                        'block_coursesentiment/aws_debugmessage',
-                        get_string('debugmessage', 'block_coursesentiment'),
-                        '',
-                        0
-                ));
         }
+
+
+        $settings->add(new admin_setting_configcheckbox(
+                'block_coursesentiment/debugmessage',
+                get_string('debugmessage', 'block_coursesentiment'),
+                '',
+                0
+        ));
 
         $settings->add(new admin_setting_configselect(
                 'block_coursesentiment/defaultview',

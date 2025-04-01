@@ -46,6 +46,54 @@ class sentimentanalyzer implements sentimentanalyzerinterface {
         }
     }
 
+    protected function add_error_results(array $msg, ?string $language, $start, string $error) {
+        $this->logsentimentmessage('Block block_coursesentiment analyze_sentiment error ' . print_r($error, 1));
+        return array(
+                'id' => $msg['id'],
+                'type' => $msg['type'],
+                'logid' => $msg['logid'],
+                'subject' => $msg['subject'],
+                'message' => $msg['message'],
+                'language' => $language,
+                'courseid' => $msg['courseid'],
+                'userroles' => $msg['userroles'],
+                'teachermessage' => $msg['teachermessage'],
+                'sentiment' => null,
+                'sentiment_score_positive' => 0,
+                'sentiment_score_negative' => 0,
+                'sentiment_score_neutral' => 0,
+                'sentiment_score_mixed' => 0,
+                'error' => $error,
+                'timeaianalysis' => round((microtime(true) - $start) * 1000, 2),
+                'tokensconsumed' => 0
+        );
+    }
+
+    protected function add_results(array $msg, string $txt, ?string $language, array $result, $start) {
+
+        $this->logsentimentmessage('Block block_coursesentiment analyze_sentiment result ' . print_r($result, 1));
+        return array(
+                'id' => $msg['id'],
+                'type' => $msg['type'],
+                'logid' => $msg['logid'],
+                'subject' => $msg['subject'],
+                'message' => $txt,
+                'language' => $language,
+                'courseid' => $msg['courseid'],
+                'userroles' => $msg['userroles'],
+                'teachermessage' => $msg['teachermessage'],
+                'sentiment' => strtoupper($result['Sentiment']),
+                'sentiment_score_positive' => $result['SentimentScore']['Positive']??0,
+                'sentiment_score_negative' => $result['SentimentScore']['Negative']??0,
+                'sentiment_score_neutral' => $result['SentimentScore']['Neutral']??0,
+                'sentiment_score_mixed' => $result['SentimentScore']['Mixed']??0,
+                'error' => false,
+                'timeaianalysis' => round((microtime(true) - $start) * 1000, 2),
+                'tokensconsumed' => 0
+        );
+
+    }
+
     private function store_log($result) {
 
         $record = $result['logid'] > 0 ? new resultlog($result['logid']) : null;
@@ -81,10 +129,12 @@ class sentimentanalyzer implements sentimentanalyzerinterface {
     }
 
     protected function buildmessage(array $msg) {
-        return 'user roles (separated by commas): "' . $msg['userroles'] . '",
-             posted time: "' . $msg['posttime'] . '",
-             subject: "' . $msg['subject'] . '",
-             message: "' . $msg['message'] . '"';
+        $language = $msg['language'] ? ('Language: ' . $msg['language']) : 'Detect the Message Language';
+        return $language . ',
+               user roles (separated by commas): "' . $msg['userroles'] . '",
+               posted time: "' . $msg['posttime'] . '",
+               subject: "' . $msg['subject'] . '",
+               message: "' . strip_tags($msg['message']) . '"';
     }
 
     public function analyze_sentiment(array $messages): array {
