@@ -175,7 +175,7 @@ if ($hassiteconfig) {
                 'all',
                 [
                         'summary' => get_string('view_summary', 'block_coursesentiment'),
-                        'chart' => get_string('view_graph', 'block_coursesentiment'),
+                        'chart' => get_string('view_chart', 'block_coursesentiment'),
                         'all' => get_string('view_all', 'block_coursesentiment')
                 ]
         ));
