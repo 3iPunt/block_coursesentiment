@@ -119,6 +119,7 @@ div.block_coursesentiment-col img.img-fluid {
     border-radius: 50%;
     height: 45px;
     width: 45px;
+    min-width: 45px;
     flex-grow: 1;
     object-fit: cover;
 }

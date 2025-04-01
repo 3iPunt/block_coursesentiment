@@ -44,8 +44,9 @@ class renderer extends plugin_renderer_base {
             if ($render->show_chart) {
                 $series = new \core\chart_series(get_string('sentiment', 'block_coursesentiment'),
                         [$courserecord->get('numberpositivemessages'),
-                                $courserecord->get('numbernegativemessages'), $courserecord->get('numbermixedmessages'),
-                                $courserecord->get('numberneutralmessages')]);
+                                $courserecord->get('numbernegativemessages'), $courserecord->get('numberneutralmessages'),
+                            $courserecord->get('numbermixedmessages'),
+                                ]);
                 $labels = [get_string('positives', 'block_coursesentiment'),
                         get_string('negatives', 'block_coursesentiment'),
                         get_string('neutral', 'block_coursesentiment'),

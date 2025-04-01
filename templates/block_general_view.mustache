@@ -29,25 +29,23 @@
 <div class="block_coursesentiment-content-container container">
 {{#has_course_stats}}
     {{#courses}}
-        <div class="row align-items-center">
-            <div class="col block_coursesentiment-col">
+        <div class="row align-items-center d-flex flex-nowrap">
+            <div class="block_coursesentiment-col">
                 {{#imageurl}}
-                    <img src="{{imageurl}}" alt="{{fullname}}" class="img-fluid" />
+                    <img src="{{imageurl}}" alt="{{fullname}}" class="img-fluid mr-3" />
                 {{/imageurl}}
             </div>
-            <div class="col-3 block_coursesentiment-col">
+            <div class="block_coursesentiment-col text-truncate">
                 <a href="{{courseurl}}" target="_blank">{{fullname}}</a>
             </div>
-            <div class="col-8 block_coursesentiment-col">
-                <div class="line-progress">
-                    <div class="block_coursesentiment-progresspart positives" style="width: {{positivespercent}}%"></div>
-                    <div class="block_coursesentiment-progresspart negatives" style="width: {{negativespercent}}%"></div>
-                    <div class="block_coursesentiment-progresspart neutral" style="width: {{neutralpercent}}%"></div>
-                    <div class="block_coursesentiment-progresspart mixed" style="width: {{mixedpercent}}%"></div>
-                </div>
-            </div>
         </div>
-        <div class="block_coursesentiment-separator">
+        <div class="line-progress mt-3">
+            <div class="block_coursesentiment-progresspart positives" style="width: {{positivespercent}}%"></div>
+            <div class="block_coursesentiment-progresspart negatives" style="width: {{negativespercent}}%"></div>
+            <div class="block_coursesentiment-progresspart neutral" style="width: {{neutralpercent}}%"></div>
+            <div class="block_coursesentiment-progresspart mixed" style="width: {{mixedpercent}}%"></div>
+        </div>
+        <div class="block_coursesentiment-separator mt-1 mb-3">
         </div>
    {{/courses}}
 
